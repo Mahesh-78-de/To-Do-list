@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A modern, minimal to-do list app to manage your daily tasks efficiently." />
+  <title>Taskly — Your Daily Planner</title>
+
+  <!-- Google Fonts — Inter for clean, modern typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Our stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== Main application container ===== -->
+  <div class="app-wrapper" id="app-wrapper">
+
+    <!-- ---- Header with branding & live date ---- -->
+    <header class="app-header" id="app-header">
+      <div class="header-top">
+        <div class="brand">
+          <!-- Simple SVG checkmark icon -->
+          <div class="brand-icon" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <rect width="28" height="28" rx="8" fill="white" fill-opacity="0.2"/>
+              <path d="M8 14.5L12.5 19L20 10" stroke="white" stroke-width="2.4"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h1 class="brand-name">Taskly</h1>
+        </div>
+        <span class="date-label" id="date-label"></span>
+      </div>
+
+      <p class="header-subtitle">Stay organised. Get things done.</p>
+    </header>
+
+    <!-- ---- Input area ---- -->
+    <div class="input-section" id="input-section">
+      <div class="input-row">
+        <input
+          type="text"
+          id="task-input"
+          class="task-input"
+          placeholder="What needs to be done?"
+          maxlength="120"
+          aria-label="New task description"
+        />
+        <button id="add-btn" class="add-btn" aria-label="Add task">
+          <!-- Plus icon -->
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <path d="M11 4V18M4 11H18" stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <!-- Validation message (hidden by default) -->
+      <p class="error-msg" id="error-msg">Please enter a task before adding.</p>
+    </div>
+
+    <!-- ---- Statistics bar ---- -->
+    <div class="stats-bar" id="stats-bar">
+      <div class="stat-chip" id="stat-total">
+        <span class="stat-number" id="total-count">0</span>
+        <span class="stat-label">Total</span>
+      </div>
+      <div class="stat-chip" id="stat-active">
+        <span class="stat-number" id="active-count">0</span>
+        <span class="stat-label">Active</span>
+      </div>
+      <div class="stat-chip completed-chip" id="stat-completed">
+        <span class="stat-number" id="completed-count">0</span>
+        <span class="stat-label">Done</span>
+      </div>
+      <!-- Visual progress ring -->
+      <div class="progress-ring-wrap" id="progress-ring-wrap" title="Completion progress">
+        <svg class="progress-ring" width="48" height="48" viewBox="0 0 48 48">
+          <circle class="progress-ring__bg" cx="24" cy="24" r="20"
+                  stroke-width="4" fill="none"/>
+          <circle class="progress-ring__fill" id="progress-circle"
+                  cx="24" cy="24" r="20" stroke-width="4" fill="none"
+                  stroke-dasharray="125.66" stroke-dashoffset="125.66"/>
+        </svg>
+        <span class="progress-pct" id="progress-pct">0%</span>
+      </div>
+    </div>
+
+    <!-- ---- Task list ---- -->
+    <ul class="task-list" id="task-list" aria-label="Task list">
+      <!-- Tasks are rendered here by JavaScript -->
+    </ul>
+
+    <!-- ---- Empty-state illustration ---- -->
+    <div class="empty-state" id="empty-state">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true">
+        <rect x="16" y="20" width="48" height="44" rx="6" stroke="#c5cee0"
+              stroke-width="2" fill="#f0f4fa"/>
+        <path d="M28 36H52M28 44H44M28 52H48" stroke="#a3b1c6" stroke-width="2"
+              stroke-linecap="round"/>
+        <circle cx="56" cy="20" r="10" fill="#4f8cff" fill-opacity="0.15"/>
+        <path d="M52 20L55 23L60 17" stroke="#4f8cff" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <p class="empty-text">No tasks yet — add one above!</p>
+    </div>
+
+  </div><!-- /.app-wrapper -->
+
+  <!-- Our script -->
+  <script src="script.js"></script>
+</body>
+</html>
