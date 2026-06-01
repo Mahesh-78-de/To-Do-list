@@ -1,7 +1,7 @@
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="A modern, minimal to-do list app to manage your daily tasks efficiently." />
@@ -16,9 +16,9 @@
   />
 
   <!-- Our stylesheet -->
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+  <link rel="stylesheet" href="{% static 'style.css' %}" />
+ </head>
+ <body>
 
   <!-- ===== Main application container ===== -->
   <div class="app-wrapper" id="app-wrapper">
@@ -36,6 +36,7 @@
             </svg>
           </div>
           <h1 class="brand-name">Taskly</h1>
+          <p class="text-muted">{% now "jS F Y" %}</p>
         </div>
         <span class="date-label" id="date-label"></span>
       </div>
@@ -115,6 +116,6 @@
   </div><!-- /.app-wrapper -->
 
   <!-- Our script -->
-  <script src="script.js"></script>
-</body>
-</html>
+  <script src="{% static '/script.js' %}"></script>
+ </body>
+ </html>
