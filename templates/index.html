@@ -11,37 +11,103 @@
     <div class="container">
         <h1>My To-Do List</h1>
         
-        <!-- Form to add new tasks -->
-        <form id="task-form" method="POST">
-            {% csrf_token %}
-            <div class="form-group">
-                <input 
-                    type="text" 
-                    id="task-input" 
-                    name="task_name" 
-                    placeholder="Enter a new task..."
-                    required
-                >
-                <button type="submit" class="btn-add">Add Task</button>
+        {% load static %}
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Taskly — Simple To-Do</title>
+            <!-- Link to main stylesheet (located in todo_main/static/style.css) -->
+            <link rel="stylesheet" href="{% static 'style.css' %}">
+        </head>
+        <body>
+            <!-- App card wrapper -->
+            <div class="app-wrapper">
+
+                <!-- Header: brand and date -->
+                <header class="app-header">
+                    <div class="header-top">
+                        <div class="brand">
+                            <div class="brand-icon" aria-hidden="true">✓</div>
+                            <h1 class="brand-name">Taskly</h1>
+                        </div>
+                        <div class="date-label">{% now "jS F Y" %}</div>
+                    </div>
+                    <p class="header-subtitle">A minimal, easy-to-read to‑do app</p>
+                </header>
+
+                <!-- Add task form: posts to the add_task view -->
+                <section class="input-section">
+                    <form id="task-form" action="{% url 'add_task' %}" method="post">
+                        {% csrf_token %}
+                        <div class="input-row">
+                            <!-- Single-line input for the new task -->
+                            <input type="text" name="task_name" id="task-input" class="task-input" placeholder="What needs to be done?" maxlength="120" required>
+                            <!-- Submit button -->
+                            <button type="submit" class="add-btn" aria-label="Add task">+</button>
+                        </div>
+                        <!-- Inline validation area (hidden by default in CSS) -->
+                        <p id="error-msg" class="error-msg" aria-hidden="true"></p>
+                    </form>
+                </section>
+
+                <!-- Small stats area: shows total tasks -->
+                <div class="stats-bar">
+                    <div class="stat-chip">
+                        <span class="stat-number">{{ tasks|length }}</span>
+                        <span class="stat-label">Total</span>
+                    </div>
+                </div>
+
+                <!-- Task list: each task shows complete and delete actions -->
+                <ul class="task-list">
+                    {% if tasks %}
+                        {% for task in tasks %}
+                            <li class="task-item {% if task.completed %}completed{% endif %}">
+                                <!-- Complete action: simple POST form -->
+                                <form action="{% url 'complete_task' task.id %}" method="post" style="display:inline;">
+                                    {% csrf_token %}
+                                    {% if not task.completed %}
+                                        <button type="submit" class="task-checkbox" title="Mark complete"></button>
+                                    {% else %}
+                                        <span class="task-checkbox" aria-hidden="true"></span>
+                                    {% endif %}
+                                </form>
+
+                                <!-- Task text -->
+                                <div class="task-text">{{ task.task }}</div>
+
+                                <!-- Delete action -->
+                                <form action="{% url 'delete_task' task.id %}" method="post" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="delete-btn" title="Delete">✕</button>
+                                </form>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <p class="empty-text">No tasks yet — add one above!</p>
+                    {% endif %}
+                </ul>
+
             </div>
-            <span id="error-msg" class="error"></span>
-        </form>
 
-        <!-- Task statistics -->
-        <div class="stats">
-            <p>Total: <span id="total-count">0</span></p>
-            <p>Done: <span id="completed-count">0</span></p>
-        </div>
-
-        <!-- Task list -->
-        <ul id="task-list" class="task-list">
-            <!-- Tasks will be added here -->
-        </ul>
-
-        <!-- Empty state message -->
-        <p id="empty-message" class="empty-text">No tasks yet. Add one above!</p>
-    </div>
-
-    <script src="{% static 'scripts.js' %}"></script>
-</body>
-</html>
+            <!-- Tiny client-side enhancement: prevent blank submits and show message -->
+            <script>
+                (function(){
+                    const form = document.getElementById('task-form');
+                    const input = document.getElementById('task-input');
+                    const err = document.getElementById('error-msg');
+                    if (!form) return;
+                    form.addEventListener('submit', function(e){
+                        if (!input.value.trim()){
+                            e.preventDefault();
+                            err.textContent = 'Please enter a task';
+                            err.classList.add('visible');
+                            err.removeAttribute('aria-hidden');
+                        }
+                    });
+                })();
+            </script>
+        </body>
+        </html>
