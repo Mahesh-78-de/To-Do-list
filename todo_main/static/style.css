@@ -1,3 +1,23 @@
+/*
+  style.css — Readable, commented stylesheet for Taskly
+
+  Purpose
+  - Styles the main app card, header, input area, task list and controls.
+
+  Organization
+  1) CSS variables (:root) — theme colors, spacing, radii
+ 2) Reset & Base — sensible defaults
+ 3) App Wrapper — overall card layout
+ 4) Header — branding and date
+ 5) Input area — add-task form styles
+ 6) Stats bar — small summary chips
+ 7) Task list — individual task items, actions
+ 8) Utilities — small helpers and animations
+
+  Quick tips
+  - To change colors, edit variables under :root.
+  - Keep selectors small and semantic for readability.
+*/
 
 :root {
   /* Accent colours */
