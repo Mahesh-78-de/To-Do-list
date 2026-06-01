@@ -1,0 +1,14 @@
+# Python virtual environment
+env/
+
+# Django / Python generated files
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+
+# macOS
+.DS_Store
+
+# VS Code
+.vscode/
